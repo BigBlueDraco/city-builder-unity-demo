@@ -48,11 +48,17 @@ public class WFC : MonoBehaviour
 	private Tile[] tiles = new Tile[1];
 	private Cell[,] grid;
 	private bool isGridColabsed;
+	private int colabsedCellCount = 0;
+ 
 
 	public void ColabseCell(int x, int y)
 	{
 			Cell cell = grid[x,y];
 			Tile tile = cell.variants[rand.Next(0, cell.variants.Length)];
+			Tile[] variant = new Tile[1];
+			variant[0] = tile;
+			cell.SetVariants(variant);
+			this.colabsedCellCount++;
 			Tile newTile = Instantiate(tile);
 			newTile.name = $"tile({x},{y})";
 			newTile.transform.position = new Vector3(1+x*2,0,1+y*2);
@@ -73,7 +79,6 @@ public class WFC : MonoBehaviour
 		if(!this.isGridColabsed)
 		{
 					Cell lowEntropyCell = grid[0, 0]; 
-		int colabsedCellCount = 0;
 					Cell randCell = grid[rand.Next(0, width),rand.Next(0, height)];
 			while(randCell.isCollapsed && !isGridColabsed)
 			{
@@ -93,8 +98,8 @@ public class WFC : MonoBehaviour
 				
 			}};
 			ColabseCell(lowEntropyCell.x, lowEntropyCell.y);
-			colabsedCellCount++;	
-			this.isGridColabsed = colabsedCellCount+1 >= width*height;
+			this.isGridColabsed = colabsedCellCount >= width*height;
+			MyButton.interactable = !(colabsedCellCount >= (this.width*this.height));
 		}
 
 
