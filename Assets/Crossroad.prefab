@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 7677241987348156951}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37, y: 0, z: 17}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -46,13 +46,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   up:
-  - {fileID: 2928864769943034506, guid: 134615054c1dd8a47bc4e1d17d0c11e9, type: 3}
+  - {fileID: 3239383016298441907, guid: b3020163fcd9d574dbbe0e8f3f1dafe0, type: 3}
   left:
   - {fileID: 2928864769943034506, guid: 134615054c1dd8a47bc4e1d17d0c11e9, type: 3}
   right:
   - {fileID: 2928864769943034506, guid: 134615054c1dd8a47bc4e1d17d0c11e9, type: 3}
   down:
-  - {fileID: 2928864769943034506, guid: 134615054c1dd8a47bc4e1d17d0c11e9, type: 3}
+  - {fileID: 3239383016298441907, guid: b3020163fcd9d574dbbe0e8f3f1dafe0, type: 3}
   type: Crossroad
 --- !u!1001 &7565023101554176816
 PrefabInstance:
