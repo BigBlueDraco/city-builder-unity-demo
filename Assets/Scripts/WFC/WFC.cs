@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class WFC : MonoBehaviour
 {
@@ -10,8 +9,6 @@ public class WFC : MonoBehaviour
 	private int height = 5;
 	[SerializeField]
 	private TileSet tiles;
-	[SerializeField]
-	private Tile error;
 	private Grid _grid;
 	public bool  isGenerated;
 	void SpawnTile(Cell cell)
