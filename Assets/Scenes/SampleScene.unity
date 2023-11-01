@@ -548,7 +548,6 @@ MonoBehaviour:
   width: 20
   height: 20
   tiles: {fileID: 439730098025097879, guid: 0e12a71045caf894e95588fafaa110fc, type: 3}
-  error: {fileID: 2928864769943034506, guid: 2a0e058c0ae6ce5459e5aa592d610ad3, type: 3}
   isGenerated: 0
 --- !u!1 &627694428
 GameObject:
