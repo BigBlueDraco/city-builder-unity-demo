@@ -1,7 +1,7 @@
-
 using System.Collections.Generic;
 using System.Linq;
 using Random = System.Random;
+using Debug = UnityEngine.Debug;
 
 public class Cordinats
 {
@@ -38,6 +38,10 @@ public class Cell
 				}
 			}
 		}
+		if(newVariants.ToArray().Length <= 0)
+		{
+			Debug.LogError("Set 0 vars");
+		}
 		_variants = newVariants.ToArray();
 	}
 	public Tile[] GetVariants()
@@ -46,15 +50,17 @@ public class Cell
 	}
 	public void ColabseCell()
 	{
-		Tile tile = _variants[rand.Next(_variants.Length)];
-		Tile[] variant = new Tile[1];
-		variant[0] = tile;
-
-		this.SetVariants(variant);
+		
+		int indx = rand.Next(0, _variants.Length);
 		if(_variants.Length ==0 )
 		{
-			UnityEngine.Debug.Log(_variants);
+			Debug.Log(_variants);
 		}
+		Debug.Log(indx);
+		Tile tile = _variants[indx];
+		Tile[] variant = new Tile[1];
+		variant[0] = tile;
+		this.SetVariants(variant);
 		this.isCollapsed = true;
 	}
 }
@@ -84,15 +90,15 @@ public class Grid
 	{
 		return _isColabsed;
 	}
-	private void FildGrid(TileSet tileSet)
+	private void FildGrid(Tile[] tileSet)
 	{
 		for(int w = 0; w<= _width-1; w++){
 		for(int h = 0; h<= _height-1; h++)
 		{
-			_cells[w,h] = new Cell(new Cordinats(w,h), tileSet.tiles);
+			_cells[w,h] = new Cell(new Cordinats(w,h), tileSet);
 		}}
 	}
-	public Grid(int width, int height, TileSet tileSet)
+	public Grid(int width, int height, Tile[] tileSet)
 	{
 		_width = width;
 		_height = height;
@@ -136,7 +142,11 @@ public class Grid
 	{
 		Cordinats cordinats = cell.cordinats;
 		Tile tile = cell.GetVariants()[0];
-		if(cordinats.x+1<_width) _cells[cordinats.x+1, cordinats.y].SetVariants( tile.right);
+		if(tile ==null)
+		{
+			Debug.LogError($"Tile varians null {cell.cordinats.x} {cell.cordinats.y}");
+		}
+		if(cordinats.x+1<_width) _cells[cordinats.x+1, cordinats.y].SetVariants(tile.right);
 		if(cordinats.x-1>=0)_cells[cordinats.x-1, cordinats.y].SetVariants(tile.left);
 		if(cordinats.y-1>=0)_cells[cordinats.x, cordinats.y-1].SetVariants(tile.down);
 		if(cordinats.y+1<_height) _cells[cordinats.x, cordinats.y+1].SetVariants( tile.up);

@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 public class WFC : MonoBehaviour
 {
-	[SerializeField] private Button Next = null;
-	[SerializeField] private Button All = null;
+
 	[SerializeField]
 	private int width = 5;
 	[SerializeField]
@@ -13,40 +12,52 @@ public class WFC : MonoBehaviour
 	private TileSet tiles;
 	[SerializeField]
 	private Tile error;
-
-	void Start()
+	private Grid _grid;
+	public bool  isGenerated;
+	void SpawnTile(Cell cell)
 	{
-		Grid grid = new Grid(width, height, tiles);
-		Next.onClick.AddListener(() => {
-			Cell cell = grid.ColabseNextOrReturnNull();
-			if(cell!=null)
-			{
-				Tile tile = cell.GetVariants()[0];
-				tile.transform.position = new Vector3(1+cell.cordinats.x*2, 0, 1+cell.cordinats.y*2);
-				Instantiate(tile);
-				Next.interactable = !grid.GetIsColabsed();
-			}
-		 });
-		All.onClick.AddListener(() => {
-			Cell[,] cells = grid.Colabse();
-			for(int w = 0; w< grid.Width; w++){
-			for(int h = 0; h< grid.Height; h++)
-			{
-				Cell cell = cells[w, h];
-				if(cell.GetVariants().Length <= 0 )
-				{
-					error.transform.position = new Vector3(1+cell.cordinats.x*2, 0, 1+cell.cordinats.y*2);
-					error.name = $"Error {1 + cell.cordinats.x * 2}, {1 + cell.cordinats.y * 2}";
-					Instantiate(error);
-					return;
-				}
-				Tile tile = cell.GetVariants()[0];
-				tile.transform.position = new Vector3(1+cell.cordinats.x*2, 0, 1+cell.cordinats.y*2);
-				tile.name = $"Tile {cell.cordinats.x }, {cell.cordinats.y}";
-				Instantiate(tile);
-				All.interactable = false;
-			}
-			}
-		 });
+		if(cell!=null)
+		{
+			Tile tile = cell.GetVariants()[0];
+			Tile newTile = Instantiate(tile);
+			newTile.transform.position = new Vector3(1+cell.cordinats.x*2, 0, 1+cell.cordinats.y*2);
+			newTile.name = $"Tile {cell.cordinats.x }, {cell.cordinats.y}";
+			newTile.transform.parent = this.transform;
+
+		}
+
+	}
+	public void GenerateAll()
+	{
+		Cell[,] cells = _grid.Colabse();
+		for(int w = 0; w< _grid.Width; w++){
+		for(int h = 0; h< _grid.Height; h++)
+		{
+			Cell cell = cells[w, h];
+			SpawnTile(cell);
+			isGenerated = !_grid.GetIsColabsed();
+		}
+		}
+	}
+	public void GenerateNext()
+	{
+		Cell cell = _grid.ColabseNextOrReturnNull();
+		SpawnTile(cell);
+		isGenerated = !_grid.GetIsColabsed();
+	}
+	public void Reset()
+	{
+		int count = this.transform.childCount;
+		for(int i = 0; i<count; i++)
+		{
+			Destroy(this.transform.GetChild(i).gameObject);
+		}
+		_grid = new Grid(width, height, tiles.tiles);
+		isGenerated = _grid.GetIsColabsed();
+	}
+	void Start()
+	{	
+		_grid = new Grid(width, height, tiles.tiles);
+
 	}
 }
