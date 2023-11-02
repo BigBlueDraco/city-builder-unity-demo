@@ -1,26 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
-abstract class Connectors: IRotated
+public class Connectors: IRotated
 {
 	private string[] _up;
-	public abstract string[] Up{ get; set; }
 	private string[] _right;
-	public abstract string[] Right{ get; set; }
 	private string[] _down;
-	public abstract string[] Down{ get; set; }
 	private string[] _left;
-	public abstract string[] Left{ get; set; }
-	Connectors(string[] connector){}
-	Connectors(string[] hor, string[] vert){}
-	Connectors(string[] hor, string[] up, string[] down){}
-	Connectors(string[] left, string[] right, string[] up, string[] down){}
+	public Connectors(string[] connector){}
+	public Connectors(string[] hor, string[] vert){}
+	public Connectors(string[] hor, string[] up, string[] down){}
+	public Connectors(string[] up, string[] right,  string[] down, string[] left)
+	{
+		Up = up;
+		Right = right;
+		Down = down;
+		Left = left;
+	}
 
-	public abstract int RotationPosition{ get; }
+	public  int RotationPosition{ get; }
+	public string[] Up { get => _up; set => _up = value.ToArray(); }
+	public string[] Right { get => _right; set => _right = value.ToArray(); }
+	public string[] Down { get => _down; set => _down = value.ToArray(); }
+	public string[] Left { get => _left; set => _left = value.ToArray(); }
 
-	public abstract void RotateLeft(int times);
+	public  void RotateLeft()
+	{
+			string[] tmp = this.Up;
+			this.Up = this.Right;
+			this.Right = this.Down;
+			this.Down = this.Left;
+			this.Left = tmp;
+	}
 
-	public abstract void RotateRight(int times);
+    public  void RotateRight()
+	{
+			string[] tmp = this.Up;
+			this.Up = this.Left;
+			this.Left = this.Down;
+			this.Down = this.Right;
+			this.Right = tmp;
+	}
 }

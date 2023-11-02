@@ -12,7 +12,7 @@ enum  TypeOfSymmetry
 	Horizontal,
 	Vertical,
 }
-[CustomEditor(typeof(Tile))]
+[CustomEditor(typeof(TileWithConnectorsData))]
 [CanEditMultipleObjects]
 public class TileEditor : Editor
 {
@@ -30,12 +30,12 @@ public class TileEditor : Editor
 	
    	void OnEnable()
 	{
-		up = serializedObject.FindProperty("up");
-		right = serializedObject.FindProperty("right");
-		down = serializedObject.FindProperty("down");
-		left = serializedObject.FindProperty("left");
-		typeOfSymmetryProp = serializedObject.FindProperty("typeOfSymmetry");
-		isSymmetrical = serializedObject.FindProperty("isSymmetrical");
+		up = serializedObject.FindProperty("_up");
+		right = serializedObject.FindProperty("_right");
+		down = serializedObject.FindProperty("_down");
+		left = serializedObject.FindProperty("_left");
+		typeOfSymmetryProp = serializedObject.FindProperty("_typeOfSymmetry");
+		isSymmetrical = serializedObject.FindProperty("_isSymmetrical");
 
 	}
 
@@ -61,9 +61,9 @@ public class TileEditor : Editor
 					
 					if(GUILayout.Button("Confirm"))
 					{
-						SerializedPropertyExtension.SetValue<Tile[]>(down, SerializedPropertyExtension.GetValue<Tile[]>(up).ToArray());
-						SerializedPropertyExtension.SetValue<Tile[]>(right, SerializedPropertyExtension.GetValue<Tile[]>(up).ToArray());
-						SerializedPropertyExtension.SetValue<Tile[]>(left, SerializedPropertyExtension.GetValue<Tile[]>(up).ToArray());
+						SerializedPropertyExtension.SetValue<string[]>(down, SerializedPropertyExtension.GetValue<string[]>(up).ToArray());
+						SerializedPropertyExtension.SetValue<string[]>(right, SerializedPropertyExtension.GetValue<string[]>(up).ToArray());
+						SerializedPropertyExtension.SetValue<string[]>(left, SerializedPropertyExtension.GetValue<string[]>(up).ToArray());
 					}
 
 				}
@@ -74,7 +74,7 @@ public class TileEditor : Editor
 					EditorGUILayout.PropertyField(left, new GUIContent("Left"));
 					if(GUILayout.Button("Confirm"))
 					{
-						SerializedPropertyExtension.SetValue<Tile[]>(down, SerializedPropertyExtension.GetValue<Tile[]>(up));
+						SerializedPropertyExtension.SetValue<string[]>(down, SerializedPropertyExtension.GetValue<string[]>(up));
 					}
 				}
 				if(typeOfSymmetry == TypeOfSymmetry.Horizontal)
@@ -84,7 +84,7 @@ public class TileEditor : Editor
 					EditorGUILayout.PropertyField(up, new GUIContent("Up"));
 					if (GUILayout.Button("Confirm"))
 					{ 
-						SerializedPropertyExtension.SetValue<Tile[]>(left, SerializedPropertyExtension.GetValue<Tile[]>(right));
+						SerializedPropertyExtension.SetValue<string[]>(left, SerializedPropertyExtension.GetValue<string[]>(right));
 					
 					}
 				}

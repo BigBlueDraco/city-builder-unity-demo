@@ -16,7 +16,7 @@ public class WFC : MonoBehaviour
 		if(cell!=null)
 		{
 			Tile tile = cell.Variants[0];
-			Tile newTile = Instantiate(tile);
+			Tile newTile = tile.Render();
 			newTile.transform.position = new Vector3(1+cell.coordinates.x*2, 0, 1+cell.coordinates.y*2);
 			newTile.name = $"Tile {cell.coordinates.x }, {cell.coordinates.y}";
 			newTile.transform.parent = this.transform;

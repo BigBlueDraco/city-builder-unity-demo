@@ -1,6 +1,6 @@
 interface IRotated
 {
 	int RotationPosition{ get; }
-	public abstract void RotateLeft(int times);
-	public abstract void RotateRight(int times);
+	public abstract void RotateLeft();
+	public abstract void RotateRight();
 }

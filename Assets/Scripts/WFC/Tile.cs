@@ -1,36 +1,64 @@
-using Unity.VisualScripting;
-using UnityEditor.Build;
 using UnityEngine;
 
 [ExecuteInEditMode]
 public class Tile : MonoBehaviour
 {
 	[SerializeField]
-	private bool isSymmetrical;
-	private int rotationPosition;
-	[SerializeField]
-	private TypeOfSymmetry typeOfSymmetry;
-	[SerializeField]
-	public string[] test;
-	[SerializeField]
-	public Tile[] up = new Tile[3];
-
-	[SerializeField]
-	public Tile[] left = new Tile[0];
-
-	[SerializeField]
-	public Tile[] right = new Tile[0];
-
-	[SerializeField]
-	public Tile[] down = new Tile[0];
+	private TileWithConnectorsData _tileWithConnectors;
+	private Connectors _connectors;
+	private bool _isSymmetrical;
+	private TypeOfSymmetry _typeOfSymmetry;
+	private int _rotatePosition;
 	[ExecuteInEditMode]
 	[SerializeField]
 	public string type = "";
-	public void RotateLeft(int times = 1)
+
+	public Connectors Connectors { get
+	{		
+		if(_connectors == null)
+		{
+			_connectors = new Connectors(_tileWithConnectors.Up, _tileWithConnectors.Right, _tileWithConnectors.Down, _tileWithConnectors.Left );	
+		}
+		return _connectors;
+	} }
+
+	public bool IsSymmetrical { get
 	{
+		if(_isSymmetrical == _tileWithConnectors.IsSymmetrical )
+		{
+			_isSymmetrical = _tileWithConnectors.IsSymmetrical;
+		}
+		return _isSymmetrical;
+	} }
+	internal TypeOfSymmetry TypeOfSymmetry { get
+	{
+		if(_typeOfSymmetry == _tileWithConnectors.TypeOfSymmetry )
+		{
+			_typeOfSymmetry = _tileWithConnectors.TypeOfSymmetry;
+		}
+		return _typeOfSymmetry;
+	}}
+
+	public Connectors[] GetConnectorsForAllRotatePositions()
+	{
+		Connectors[] connectorsArray = new Connectors[4];
+		for(int i = 0; i<=3; i++)
+		{
+			RotateRight();
+			connectorsArray[i] = Connectors;
+		}
+		return connectorsArray;
 	}
 	public void RotateRight(int times = 1)
 	{
-
+		_rotatePosition = times%4;
+		Connectors.RotateRight();
+	}
+	public Tile Render(int rotatePosition = 0)
+	{	
+		Tile newTile = Instantiate(this);
+		newTile.transform.Rotate(new Vector3(0, 1, 0), 90*rotatePosition);
+		return newTile;
 	}
 }
+

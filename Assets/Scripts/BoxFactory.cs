@@ -1,20 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BoxFactory : MonoBehaviour
 {
-    [SerializeField]
-    private Box box;
-    // Start is called before the first frame update
-    void Start()
-    {
-        Debug.Log(box.hp);
-    }
+	[SerializeField]
+	private Button _btn;
+	[SerializeField]
+	private Tile tile;
+	void Start()
+	{
+		_btn.onClick.AddListener(() =>
+		{	
+			Tile newTile = tile.Render(1);
+		});
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

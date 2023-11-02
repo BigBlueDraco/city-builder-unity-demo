@@ -3,7 +3,10 @@ using System.Linq;
 using Random = System.Random;
 using Debug = UnityEngine.Debug;
 
-
+interface ICollapsable
+{
+	public void Collapse(){}
+}
 public class Coordinates
 {
 	public int x;
@@ -14,53 +17,9 @@ public class Coordinates
 		this.y = y;
 	}
 }
-public class Cell
-{
-	private Random rand = new Random();
-	public Coordinates coordinates;
-	public bool isCollapsed; 
-	private Tile[] _variants;
-	public Tile[] Variants
-	{
-		get { return _variants; }
-		set {		
-			HashSet<Tile> newVariants = new HashSet<Tile>();
-			foreach(Tile variant in _variants)
-			{
-				foreach(Tile tile in value)
-				{
-					if(variant.type == tile.type)
-					{
-						newVariants.Add(tile);				
-					}
-				}
-			}
-			_variants = newVariants.ToArray();}
-	}
-	public Cell(Coordinates coordinates, Tile[] variants)
-	{
-		_variants= variants.ToArray();
-		this.coordinates = coordinates;
-		this.isCollapsed = false;
-	}
-	public void CollapseCell()
-	{
-		
-		int indx = rand.Next(0, _variants.Length);
-		if(_variants.Length ==0 )
-		{
-			Debug.Log(_variants);
-		}
-		Debug.Log(indx);
-		Tile tile = _variants[indx];
-		Tile[] variant = new Tile[1];
-		variant[0] = tile;
-		this.Variants = variant;
-		this.isCollapsed = true;
-	}
-}
 
-public class Grid
+
+public class Grid: ICollapsable
 {
 	private Random rand = new Random();
 	
@@ -141,17 +100,17 @@ public class Grid
 		{
 			Debug.LogError($"Tile variants null {cell.coordinates.x} {cell.coordinates.y}");
 		}
-		if(coordinates.x+1<_width) _cells[coordinates.x+1, coordinates.y].Variants =tile.right;
-		if(coordinates.x-1>=0)_cells[coordinates.x-1, coordinates.y].Variants =tile.left;
-		if(coordinates.y-1>=0)_cells[coordinates.x, coordinates.y-1].Variants =tile.down;
-		if(coordinates.y+1<_height) _cells[coordinates.x, coordinates.y+1].Variants = tile.up;
+		// if(coordinates.x+1<_width) _cells[coordinates.x+1, coordinates.y].Variants =tile.Connectors.Right;
+		// if(coordinates.x-1>=0)_cells[coordinates.x-1, coordinates.y].Variants =tile.left;
+		// if(coordinates.y-1>=0)_cells[coordinates.x, coordinates.y-1].Variants =tile.down;
+		// if(coordinates.y+1<_height) _cells[coordinates.x, coordinates.y+1].Variants = tile.up;
 	}
 	public Cell CollapseNextOrReturnNull()
 	{
 		if(!_isCollapsed)
 		{
 			Cell cell = FindCellWithLowEntropy();
-			cell.CollapseCell();
+			cell.Collapse();
 			_collapsedCellCount++;
 			_isCollapsed = _collapsedCellCount >= _width*_height;
 			ChangeVariantsToNeighborhood(cell);
