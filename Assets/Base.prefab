@@ -45,17 +45,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf564183ceb94f4b881324792d35d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSymmetrical: 1
+  typeOfSymmetry: 0
+  test:
+  - dasdas
+  - dasdasdasda
+  - sdasdas
   up:
   - {fileID: 2928864769943034506}
   - {fileID: 3239383016298441907, guid: b3020163fcd9d574dbbe0e8f3f1dafe0, type: 3}
   left:
   - {fileID: 2928864769943034506}
   - {fileID: 3239383016298441907, guid: b3020163fcd9d574dbbe0e8f3f1dafe0, type: 3}
-  - {fileID: 8730092312498163892, guid: 2e524215ba075a244b8c9324ea3a75d3, type: 3}
   right:
   - {fileID: 2928864769943034506}
   - {fileID: 3239383016298441907, guid: b3020163fcd9d574dbbe0e8f3f1dafe0, type: 3}
-  - {fileID: 8730092312498163892, guid: 2e524215ba075a244b8c9324ea3a75d3, type: 3}
   down:
   - {fileID: 2928864769943034506}
   - {fileID: 3239383016298441907, guid: b3020163fcd9d574dbbe0e8f3f1dafe0, type: 3}
