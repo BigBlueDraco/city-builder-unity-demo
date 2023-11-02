@@ -20,34 +20,28 @@ public class Cell
 	public Coordinates coordinates;
 	public bool isCollapsed; 
 	private Tile[] _variants;
+	public Tile[] Variants
+	{
+		get { return _variants; }
+		set {		
+			HashSet<Tile> newVariants = new HashSet<Tile>();
+			foreach(Tile variant in _variants)
+			{
+				foreach(Tile tile in value)
+				{
+					if(variant.type == tile.type)
+					{
+						newVariants.Add(tile);				
+					}
+				}
+			}
+			_variants = newVariants.ToArray();}
+	}
 	public Cell(Coordinates coordinates, Tile[] variants)
 	{
 		_variants= variants.ToArray();
 		this.coordinates = coordinates;
 		this.isCollapsed = false;
-	}
-	public void SetVariants(Tile[] tiles)
-	{
-		HashSet<Tile> newVariants = new HashSet<Tile>();
-		foreach(Tile variant in _variants)
-		{
-			foreach(Tile tile in tiles)
-			{
-				if(variant.type == tile.type)
-				{
-					newVariants.Add(tile);				
-				}
-			}
-		}
-		if(newVariants.ToArray().Length <= 0)
-		{
-			Debug.LogError("Set 0 vars");
-		}
-		_variants = newVariants.ToArray();
-	}
-	public Tile[] GetVariants()
-	{
-		return _variants;
 	}
 	public void CollapseCell()
 	{
@@ -61,7 +55,7 @@ public class Cell
 		Tile tile = _variants[indx];
 		Tile[] variant = new Tile[1];
 		variant[0] = tile;
-		this.SetVariants(variant);
+		this.Variants = variant;
 		this.isCollapsed = true;
 	}
 }
@@ -131,7 +125,7 @@ public class Grid
 		for(int w= 0; w<= _width-1; w++)
 		{
 			Cell cell = _cells[w,h];
-			if(cell.GetVariants().Length < lowEntropyCell.GetVariants().Length&&!cell.isCollapsed&&cell.coordinates != lowEntropyCell.coordinates)
+			if(cell.Variants.Length < lowEntropyCell.Variants.Length&&!cell.isCollapsed&&cell.coordinates != lowEntropyCell.coordinates)
 			{
 				lowEntropyCell = _cells[w,h];
 			};
@@ -142,15 +136,15 @@ public class Grid
 	public void ChangeVariantsToNeighborhood(Cell cell)
 	{
 		Coordinates coordinates = cell.coordinates;
-		Tile tile = cell.GetVariants()[0];
+		Tile tile = cell.Variants[0];
 		if(tile ==null)
 		{
-			Debug.LogError($"Tile varians null {cell.coordinates.x} {cell.coordinates.y}");
+			Debug.LogError($"Tile variants null {cell.coordinates.x} {cell.coordinates.y}");
 		}
-		if(coordinates.x+1<_width) _cells[coordinates.x+1, coordinates.y].SetVariants(tile.right);
-		if(coordinates.x-1>=0)_cells[coordinates.x-1, coordinates.y].SetVariants(tile.left);
-		if(coordinates.y-1>=0)_cells[coordinates.x, coordinates.y-1].SetVariants(tile.down);
-		if(coordinates.y+1<_height) _cells[coordinates.x, coordinates.y+1].SetVariants( tile.up);
+		if(coordinates.x+1<_width) _cells[coordinates.x+1, coordinates.y].Variants =tile.right;
+		if(coordinates.x-1>=0)_cells[coordinates.x-1, coordinates.y].Variants =tile.left;
+		if(coordinates.y-1>=0)_cells[coordinates.x, coordinates.y-1].Variants =tile.down;
+		if(coordinates.y+1<_height) _cells[coordinates.x, coordinates.y+1].Variants = tile.up;
 	}
 	public Cell CollapseNextOrReturnNull()
 	{
@@ -165,7 +159,7 @@ public class Grid
 		}
 		return null;
 	}
-	public Cell[,] Colabse()
+	public Cell[,] Collapse()
 	{
 		while(!_isCollapsed)
 		{

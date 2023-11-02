@@ -15,18 +15,17 @@ public class WFC : MonoBehaviour
 	{
 		if(cell!=null)
 		{
-			Tile tile = cell.GetVariants()[0];
+			Tile tile = cell.Variants[0];
 			Tile newTile = Instantiate(tile);
 			newTile.transform.position = new Vector3(1+cell.coordinates.x*2, 0, 1+cell.coordinates.y*2);
 			newTile.name = $"Tile {cell.coordinates.x }, {cell.coordinates.y}";
 			newTile.transform.parent = this.transform;
-
 		}
 
 	}
 	public void GenerateAll()
 	{
-		Cell[,] cells = _grid.Colabse();
+		Cell[,] cells = _grid.Collapse();
 		for(int w = 0; w< _grid.Width; w++){
 		for(int h = 0; h< _grid.Height; h++)
 		{
