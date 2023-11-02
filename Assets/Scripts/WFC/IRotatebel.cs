@@ -1,4 +1,4 @@
-interface IRotatebel
+interface IRotated
 {
 	int RotationPosition{ get; }
 	public abstract void RotateLeft(int times);

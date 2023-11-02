@@ -4,11 +4,11 @@ using Random = System.Random;
 using Debug = UnityEngine.Debug;
 
 
-public class Cordinats
+public class Coordinates
 {
 	public int x;
 	public int y;
-	public Cordinats(int x, int y)
+	public Coordinates(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
@@ -17,13 +17,13 @@ public class Cordinats
 public class Cell
 {
 	private Random rand = new Random();
-	public Cordinats cordinats;
+	public Coordinates coordinates;
 	public bool isCollapsed; 
 	private Tile[] _variants;
-	public Cell(Cordinats cordinats, Tile[] variants)
+	public Cell(Coordinates coordinates, Tile[] variants)
 	{
 		_variants= variants.ToArray();
-		this.cordinats = cordinats;
+		this.coordinates = coordinates;
 		this.isCollapsed = false;
 	}
 	public void SetVariants(Tile[] tiles)
@@ -49,7 +49,7 @@ public class Cell
 	{
 		return _variants;
 	}
-	public void ColabseCell()
+	public void CollapseCell()
 	{
 		
 		int indx = rand.Next(0, _variants.Length);
@@ -73,8 +73,8 @@ public class Grid
 	private int _width;
 	private int _height;
 	private Cell[,] _cells;
-	private bool _isColabsed;
-	private int _colabsedCellCount;
+	private bool _isCollapsed;
+	private int _collapsedCellCount;
 	private void CrateGrid()
 	{
 		_cells = new Cell[_width, _height];
@@ -87,16 +87,16 @@ public class Grid
 	{
 		get { return _height; }
 	}
-	public bool GetIsColabsed()
+	public bool GetIsCollapsed()
 	{
-		return _isColabsed;
+		return _isCollapsed;
 	}
-	private void FildGrid(Tile[] tileSet)
+	private void FillGrid(Tile[] tileSet)
 	{
 		for(int w = 0; w<= _width-1; w++){
 		for(int h = 0; h<= _height-1; h++)
 		{
-			_cells[w,h] = new Cell(new Cordinats(w,h), tileSet);
+			_cells[w,h] = new Cell(new Coordinates(w,h), tileSet);
 		}}
 	}
 	public Grid(int width, int height, Tile[] tileSet)
@@ -104,21 +104,21 @@ public class Grid
 		_width = width;
 		_height = height;
 		CrateGrid();
-		FildGrid(tileSet);
-		_isColabsed = false;
+		FillGrid(tileSet);
+		_isCollapsed = false;
 	}
 	public Cell GetCell(int x, int y)
 	{
 		return _cells[x, y];
 	}
-	public Cell GetCell(Cordinats cordinats)
+	public Cell GetCell(Coordinates coordinates)
 	{
-		return _cells[cordinats.x, cordinats.y];
+		return _cells[coordinates.x, coordinates.y];
 	}
-	private Cell RandomUncolabsedCell()
+	private Cell RandomUncollapsedCell()
 	{
 		Cell randCell = _cells[rand.Next(0, _width),rand.Next(0, _height)];
-		while(randCell.isCollapsed && !_isColabsed)
+		while(randCell.isCollapsed && !_isCollapsed)
 		{
 			randCell = _cells[rand.Next(0, _width),rand.Next(0, _height)];
 		}
@@ -126,12 +126,12 @@ public class Grid
 	}
 	private Cell FindCellWithLowEntropy()
 	{
-		Cell lowEntropyCell = RandomUncolabsedCell();
+		Cell lowEntropyCell = RandomUncollapsedCell();
 		for(int h = 0; h<= _height-1; h++){
 		for(int w= 0; w<= _width-1; w++)
 		{
 			Cell cell = _cells[w,h];
-			if(cell.GetVariants().Length < lowEntropyCell.GetVariants().Length&&!cell.isCollapsed&&cell.cordinats != lowEntropyCell.cordinats)
+			if(cell.GetVariants().Length < lowEntropyCell.GetVariants().Length&&!cell.isCollapsed&&cell.coordinates != lowEntropyCell.coordinates)
 			{
 				lowEntropyCell = _cells[w,h];
 			};
@@ -141,25 +141,25 @@ public class Grid
 	}
 	public void ChangeVariantsToNeighborhood(Cell cell)
 	{
-		Cordinats cordinats = cell.cordinats;
+		Coordinates coordinates = cell.coordinates;
 		Tile tile = cell.GetVariants()[0];
 		if(tile ==null)
 		{
-			Debug.LogError($"Tile varians null {cell.cordinats.x} {cell.cordinats.y}");
+			Debug.LogError($"Tile varians null {cell.coordinates.x} {cell.coordinates.y}");
 		}
-		if(cordinats.x+1<_width) _cells[cordinats.x+1, cordinats.y].SetVariants(tile.right);
-		if(cordinats.x-1>=0)_cells[cordinats.x-1, cordinats.y].SetVariants(tile.left);
-		if(cordinats.y-1>=0)_cells[cordinats.x, cordinats.y-1].SetVariants(tile.down);
-		if(cordinats.y+1<_height) _cells[cordinats.x, cordinats.y+1].SetVariants( tile.up);
+		if(coordinates.x+1<_width) _cells[coordinates.x+1, coordinates.y].SetVariants(tile.right);
+		if(coordinates.x-1>=0)_cells[coordinates.x-1, coordinates.y].SetVariants(tile.left);
+		if(coordinates.y-1>=0)_cells[coordinates.x, coordinates.y-1].SetVariants(tile.down);
+		if(coordinates.y+1<_height) _cells[coordinates.x, coordinates.y+1].SetVariants( tile.up);
 	}
-	public Cell ColabseNextOrReturnNull()
+	public Cell CollapseNextOrReturnNull()
 	{
-		if(!_isColabsed)
+		if(!_isCollapsed)
 		{
 			Cell cell = FindCellWithLowEntropy();
-			cell.ColabseCell();
-			_colabsedCellCount++;
-			_isColabsed = _colabsedCellCount >= _width*_height;
+			cell.CollapseCell();
+			_collapsedCellCount++;
+			_isCollapsed = _collapsedCellCount >= _width*_height;
 			ChangeVariantsToNeighborhood(cell);
 			return cell;
 		}
@@ -167,9 +167,9 @@ public class Grid
 	}
 	public Cell[,] Colabse()
 	{
-		while(!_isColabsed)
+		while(!_isCollapsed)
 		{
-			ColabseNextOrReturnNull();
+			CollapseNextOrReturnNull();
 		}
 		return _cells;
 	}

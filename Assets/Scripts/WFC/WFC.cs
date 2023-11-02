@@ -17,8 +17,8 @@ public class WFC : MonoBehaviour
 		{
 			Tile tile = cell.GetVariants()[0];
 			Tile newTile = Instantiate(tile);
-			newTile.transform.position = new Vector3(1+cell.cordinats.x*2, 0, 1+cell.cordinats.y*2);
-			newTile.name = $"Tile {cell.cordinats.x }, {cell.cordinats.y}";
+			newTile.transform.position = new Vector3(1+cell.coordinates.x*2, 0, 1+cell.coordinates.y*2);
+			newTile.name = $"Tile {cell.coordinates.x }, {cell.coordinates.y}";
 			newTile.transform.parent = this.transform;
 
 		}
@@ -32,15 +32,15 @@ public class WFC : MonoBehaviour
 		{
 			Cell cell = cells[w, h];
 			SpawnTile(cell);
-			isGenerated = !_grid.GetIsColabsed();
+			isGenerated = !_grid.GetIsCollapsed();
 		}
 		}
 	}
 	public void GenerateNext()
 	{
-		Cell cell = _grid.ColabseNextOrReturnNull();
+		Cell cell = _grid.CollapseNextOrReturnNull();
 		SpawnTile(cell);
-		isGenerated = !_grid.GetIsColabsed();
+		isGenerated = !_grid.GetIsCollapsed();
 	}
 	public void Reset()
 	{
@@ -50,7 +50,7 @@ public class WFC : MonoBehaviour
 			Destroy(this.transform.GetChild(i).gameObject);
 		}
 		_grid = new Grid(width, height, tiles.tiles);
-		isGenerated = _grid.GetIsColabsed();
+		isGenerated = _grid.GetIsCollapsed();
 	}
 	void Start()
 	{	
