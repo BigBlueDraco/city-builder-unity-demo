@@ -94,16 +94,30 @@ public class Grid: ICollapsable
 	}
 	public void ChangeVariantsToNeighborhood(Cell cell)
 	{
-		Coordinates coordinates = cell.coordinates;
-		Tile tile = cell.Variants[0];
-		if(tile ==null)
+		Connectors cellConnectors = cell.Connectors;
+		Coordinates coordinates = cell.coordinates;	
+		if(coordinates.x+1<_width)
 		{
-			Debug.LogError($"Tile variants null {cell.coordinates.x} {cell.coordinates.y}");
-		}
-		// if(coordinates.x+1<_width) _cells[coordinates.x+1, coordinates.y].Variants =tile.Connectors.Right;
-		// if(coordinates.x-1>=0)_cells[coordinates.x-1, coordinates.y].Variants =tile.left;
-		// if(coordinates.y-1>=0)_cells[coordinates.x, coordinates.y-1].Variants =tile.down;
-		// if(coordinates.y+1<_height) _cells[coordinates.x, coordinates.y+1].Variants = tile.up;
+			Connectors rightConnectors = _cells[coordinates.x + 1, coordinates.y].Connectors;
+			_cells[coordinates.x + 1, coordinates.y].Connectors = new Connectors(up: rightConnectors.Up , right: rightConnectors.Right, down: rightConnectors.Down, left: cellConnectors.Right);	
+		};
+		if(coordinates.x-1>=0)
+		{
+			Connectors leftConnectors = _cells[coordinates.x - 1, coordinates.y].Connectors;	
+			_cells[coordinates.x - 1, coordinates.y].Connectors = new Connectors(up: leftConnectors.Up , right: cellConnectors.Left, down: leftConnectors.Down, left: leftConnectors.Left);
+			
+		};
+		if(coordinates.y-1>=0)
+		{
+			Connectors downConnectors = _cells[coordinates.x, coordinates.y-1].Connectors;
+			_cells[coordinates.x, coordinates.y-1].Connectors = new Connectors(up: cellConnectors.Down , right: downConnectors.Right, down: downConnectors.Down, left: downConnectors.Left);
+		};
+		if(coordinates.y+1<_height)
+		{
+			Connectors upConnectors = _cells[coordinates.x , coordinates.y+1].Connectors;
+			_cells[coordinates.x, coordinates.y+1].Connectors = new Connectors(up: upConnectors.Up , right: upConnectors.Right, down: cellConnectors.Down, left: upConnectors.Left);	
+
+		};
 	}
 	public Cell CollapseNextOrReturnNull()
 	{

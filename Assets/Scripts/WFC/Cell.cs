@@ -14,20 +14,6 @@ public class Cell: ICollapsable
 	public Tile[] Variants
 	{
 		get { return _variants; }
-		set {		
-			HashSet<Tile> newVariants = new HashSet<Tile>();
-			foreach(Tile variant in _variants)
-			{
-				foreach(Tile tile in value)
-				{
-					if(variant.Connectors == tile.Connectors)
-					{
-						newVariants.Add(tile);				
-					}
-				}
-			}
-			_variants = newVariants.ToArray();
-		}
 	}
 
 	public Connectors Connectors { get => _connectors; set
@@ -38,9 +24,34 @@ public class Cell: ICollapsable
 
 	public Cell(Coordinates coordinates, Tile[] variants)
 	{
+		HashSet<String> up = new HashSet<String>();
+		HashSet<String> right = new HashSet<String>();
+		HashSet<String> down = new HashSet<String>();
+		HashSet<String> left = new HashSet<String>();
+		foreach(Tile variant in variants.ToArray())
+		{
+			foreach(string str in variant.Connectors.Up)
+			{
+				up.Add(str);
+			}
+			foreach(string str in variant.Connectors.Right)
+			{
+				right.Add(str);
+			}
+			foreach(string str in variant.Connectors.Down)
+			{
+				down.Add(str);
+			}
+			foreach(string str in variant.Connectors.Left)
+			{
+				left.Add(str);
+			}
+		}
 		_variants= variants.ToArray();
 		this.coordinates = coordinates;
 		this.isCollapsed = false;
+		_connectors = new Connectors(up.ToArray(), right.ToArray(), down.ToArray(), left.ToArray());
+		SetVariantsBaseByConnectors();
 	}
 	private void SetVariantsBaseByConnectors()
 	{
@@ -61,7 +72,7 @@ public class Cell: ICollapsable
 		Tile[] variant = new Tile[1];
 		variant[0] = tile;
 		Connectors = new Connectors(variant[0].Connectors.Up, variant[0].Connectors.Right,variant[0].Connectors.Down,variant[0].Connectors.Left);
-		this.Variants = variant;
+		_variants = variant;
 		this.isCollapsed = true;
 	}
 }

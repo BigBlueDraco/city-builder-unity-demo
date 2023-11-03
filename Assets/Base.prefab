@@ -45,24 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf564183ceb94f4b881324792d35d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSymmetrical: 1
-  typeOfSymmetry: 0
-  test:
-  - dasdas
-  - dasdasdasda
-  - sdasdas
-  up:
-  - {fileID: 2928864769943034506}
-  - {fileID: 3239383016298441907, guid: b3020163fcd9d574dbbe0e8f3f1dafe0, type: 3}
-  left:
-  - {fileID: 2928864769943034506}
-  - {fileID: 3239383016298441907, guid: b3020163fcd9d574dbbe0e8f3f1dafe0, type: 3}
-  right:
-  - {fileID: 2928864769943034506}
-  - {fileID: 3239383016298441907, guid: b3020163fcd9d574dbbe0e8f3f1dafe0, type: 3}
-  down:
-  - {fileID: 2928864769943034506}
-  - {fileID: 3239383016298441907, guid: b3020163fcd9d574dbbe0e8f3f1dafe0, type: 3}
+  _tileWithConnectors: {fileID: 11400000, guid: f82cc69e91c53da47817e1c7b1a7f171, type: 2}
   type: Base
 --- !u!1001 &8033119537706695668
 PrefabInstance:
