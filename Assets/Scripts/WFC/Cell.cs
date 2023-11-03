@@ -9,6 +9,7 @@ public class Cell: ICollapsable
 	private Random rand = new Random();
 	public Coordinates coordinates;
 	public bool isCollapsed;
+	private Connectors connectors;
 	private Tile[] _variants;
 	public Tile[] Variants
 	{
@@ -28,6 +29,17 @@ public class Cell: ICollapsable
 			_variants = newVariants.ToArray();}
 	}
 
+	public Connectors Connectors { get => connectors; set
+	{
+		connectors = value;
+		foreach(Tile tile in Variants)
+		{
+			if(tile.Connectors == connectors)
+			{
+				
+			} 
+		}
+	}}
 
 	public Cell(Coordinates coordinates, Tile[] variants)
 	{
