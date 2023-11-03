@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileWithConnectors: {fileID: 11400000, guid: f82cc69e91c53da47817e1c7b1a7f171, type: 2}
   type: Base
+  canConnectToHimself: 1
 --- !u!1001 &8033119537706695668
 PrefabInstance:
   m_ObjectHideFlags: 0

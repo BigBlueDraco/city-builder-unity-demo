@@ -12,6 +12,15 @@ public class Tile : MonoBehaviour
 	[ExecuteInEditMode]
 	[SerializeField]
 	public string type = "";
+	[SerializeField]
+	public bool canConnectToHimselfUp = true;
+	[SerializeField]
+	public bool canConnectToHimselfRight = true;
+	[SerializeField]
+	public bool canConnectToHimselfLeft = true;
+	[SerializeField]
+	public bool canConnectToHimselfDown = true;
+
 
 	public Connectors Connectors { get
 	{		
@@ -51,6 +60,11 @@ public class Tile : MonoBehaviour
 	}
 	public void RotateRight(int times = 1)
 	{
+		bool tmp = canConnectToHimselfUp;
+		canConnectToHimselfUp = canConnectToHimselfLeft;
+		canConnectToHimselfLeft = canConnectToHimselfDown;
+		canConnectToHimselfDown = canConnectToHimselfRight;
+		canConnectToHimselfRight = tmp;
 		_rotatePosition = times%4;
 		Connectors.RotateRight();
 	}

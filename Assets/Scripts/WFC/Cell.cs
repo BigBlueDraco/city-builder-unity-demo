@@ -11,6 +11,7 @@ public class Cell: ICollapsable
 	public bool isCollapsed;
 	private Connectors _connectors;
 	private Tile[] _variants;
+	
 	public Tile[] Variants
 	{
 		get { return _variants; }
@@ -74,5 +75,17 @@ public class Cell: ICollapsable
 		Connectors = new Connectors(variant[0].Connectors.Up, variant[0].Connectors.Right,variant[0].Connectors.Down,variant[0].Connectors.Left);
 		_variants = variant;
 		this.isCollapsed = true;
+	}
+	public void ExecuteVariantByType(string type)
+	{
+		HashSet<Tile> newVariants = new HashSet<Tile>();
+		foreach(Tile variant in Variants)
+		{
+			if (variant.type != type) 
+			{
+				newVariants.Add(variant);
+			}
+		}
+		_variants = newVariants.ToArray();
 	}
 }

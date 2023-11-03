@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8815932000564375134}
   - component: {fileID: 4944745926975477798}
   m_Layer: 0
-  m_Name: Road
+  m_Name: RoadV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,8 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf564183ceb94f4b881324792d35d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tileWithConnectors: {fileID: 11400000, guid: f82cc69e91c53da47817e1c7b1a7f171, type: 2}
-  type: Road
+  _tileWithConnectors: {fileID: 11400000, guid: e25c5987a51b63a469dd7f159bb76ef3, type: 2}
+  type: RoadV
+  canConnectToHimselfUp: 1
+  canConnectToHimselfRight: 0
+  canConnectToHimselfLeft: 0
+  canConnectToHimselfDown: 1
 --- !u!1001 &2884142021139402179
 PrefabInstance:
   m_ObjectHideFlags: 0

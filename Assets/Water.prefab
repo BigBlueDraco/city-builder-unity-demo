@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2875204052848195421}
   - component: {fileID: 3239383016298441907}
   m_Layer: 0
-  m_Name: BaseBlue
+  m_Name: Water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,8 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf564183ceb94f4b881324792d35d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tileWithConnectors: {fileID: 11400000, guid: 8b0579a51702ae7438a8171d77971c7b, type: 2}
-  type: BlueBase
+  _tileWithConnectors: {fileID: 11400000, guid: 45135f2c01ac49845a53d21c3328ecc3, type: 2}
+  type: water
+  canConnectToHimselfUp: 1
+  canConnectToHimselfRight: 1
+  canConnectToHimselfLeft: 1
+  canConnectToHimselfDown: 1
 --- !u!1001 &3971902078155890506
 PrefabInstance:
   m_ObjectHideFlags: 0
